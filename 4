@@ -368,8 +368,7 @@ end
 local ScreenGui=Instance.new("ScreenGui")
 ScreenGui.ZIndexBehavior=Enum.ZIndexBehavior.Global
 ScreenGui.Name="BugToolsGui"
-local _ok=pcall(function() ScreenGui.Parent=game:GetService("CoreGui") end)
-if not _ok then ScreenGui.Parent=player.PlayerGui end
+if not pcall(function() ScreenGui.Parent=game:GetService("CoreGui") end) then ScreenGui.Parent=player.PlayerGui end
 
 local MainFrame=Instance.new("Frame")
 local FRAME_W=220; local FRAME_H_CLOSED=35; local FRAME_H_OPEN=400
@@ -473,6 +472,170 @@ end
 -- =========================================================================
 -- PLAYER LEADERBOARD
 -- =========================================================================
+
+-- =========================================================================
+-- SF BOT PANEL
+-- =========================================================================
+local sfBotPanel = Instance.new("Frame")
+sfBotPanel.Size = UDim2.new(0,240,0,370)
+sfBotPanel.Position = UDim2.new(0.5,-360,0.05,0)
+sfBotPanel.BackgroundColor3 = Color3.fromRGB(18,18,25)
+sfBotPanel.BackgroundTransparency = 0
+sfBotPanel.BorderSizePixel = 0
+sfBotPanel.Visible = false
+sfBotPanel.ZIndex = 60
+sfBotPanel.Parent = ScreenGui
+Instance.new("UICorner",sfBotPanel).CornerRadius = UDim.new(0,12)
+
+local sfPanelTitle = Instance.new("TextLabel",sfBotPanel)
+sfPanelTitle.Size = UDim2.new(1,-40,0,34)
+sfPanelTitle.Position = UDim2.new(0,10,0,0)
+sfPanelTitle.BackgroundTransparency = 1
+sfPanelTitle.TextColor3 = Color3.fromRGB(255,255,255)
+sfPanelTitle.Font = Enum.Font.SourceSansBold
+sfPanelTitle.TextSize = 15
+sfPanelTitle.Text = "SF Bot Settings"
+sfPanelTitle.TextXAlignment = Enum.TextXAlignment.Left
+sfPanelTitle.ZIndex = 61
+
+local sfPanelClose = Instance.new("TextButton",sfBotPanel)
+sfPanelClose.Size = UDim2.new(0,28,0,28)
+sfPanelClose.Position = UDim2.new(1,-34,0,3)
+sfPanelClose.BackgroundColor3 = Color3.fromRGB(60,60,70)
+sfPanelClose.TextColor3 = Color3.fromRGB(255,255,255)
+sfPanelClose.Font = Enum.Font.SourceSansBold
+sfPanelClose.TextSize = 13
+sfPanelClose.Text = "X"
+sfPanelClose.BorderSizePixel = 0
+sfPanelClose.ZIndex = 61
+Instance.new("UICorner",sfPanelClose).CornerRadius = UDim.new(0,7)
+sfPanelClose.MouseButton1Click:Connect(function() sfBotPanel.Visible = false end)
+
+local sfDiv = Instance.new("Frame",sfBotPanel)
+sfDiv.Size = UDim2.new(1,-16,0,1)
+sfDiv.Position = UDim2.new(0,8,0,36)
+sfDiv.BackgroundColor3 = Color3.fromRGB(50,50,65)
+sfDiv.BorderSizePixel = 0
+sfDiv.ZIndex = 61
+
+-- helper bikin row toggle di panel
+local sfRowY = 44
+local function sfMakeRow(labelTxt, default)
+    local row = Instance.new("Frame",sfBotPanel)
+    row.Size = UDim2.new(1,-16,0,30)
+    row.Position = UDim2.new(0,8,0,sfRowY)
+    row.BackgroundColor3 = Color3.fromRGB(25,25,35)
+    row.BorderSizePixel = 0
+    row.ZIndex = 61
+    Instance.new("UICorner",row).CornerRadius = UDim.new(0,7)
+    local lbl = Instance.new("TextLabel",row)
+    lbl.Size = UDim2.new(1,-60,1,0)
+    lbl.Position = UDim2.new(0,8,0,0)
+    lbl.BackgroundTransparency = 1
+    lbl.TextColor3 = Color3.fromRGB(210,210,210)
+    lbl.Font = Enum.Font.SourceSans
+    lbl.TextSize = 13
+    lbl.Text = labelTxt
+    lbl.TextXAlignment = Enum.TextXAlignment.Left
+    lbl.ZIndex = 62
+    local btn = Instance.new("TextButton",row)
+    btn.Size = UDim2.new(0,46,0,22)
+    btn.Position = UDim2.new(1,-52,0.5,-11)
+    btn.Font = Enum.Font.SourceSansBold
+    btn.TextSize = 12
+    btn.BorderSizePixel = 0
+    btn.ZIndex = 62
+    Instance.new("UICorner",btn).CornerRadius = UDim.new(0,5)
+    local state = default
+    local function refresh()
+        btn.Text = state and "ON" or "OFF"
+        btn.BackgroundColor3 = state and Color3.fromRGB(0,150,0) or Color3.fromRGB(100,30,30)
+        btn.TextColor3 = Color3.fromRGB(255,255,255)
+    end
+    refresh()
+    btn.MouseButton1Click:Connect(function() state = not state; refresh() end)
+    sfRowY = sfRowY + 34
+    return function() return state end
+end
+
+local function sfMakeNumRow(labelTxt, default)
+    local row = Instance.new("Frame",sfBotPanel)
+    row.Size = UDim2.new(1,-16,0,30)
+    row.Position = UDim2.new(0,8,0,sfRowY)
+    row.BackgroundColor3 = Color3.fromRGB(25,25,35)
+    row.BorderSizePixel = 0
+    row.ZIndex = 61
+    Instance.new("UICorner",row).CornerRadius = UDim.new(0,7)
+    local lbl = Instance.new("TextLabel",row)
+    lbl.Size = UDim2.new(1,-70,1,0)
+    lbl.Position = UDim2.new(0,8,0,0)
+    lbl.BackgroundTransparency = 1
+    lbl.TextColor3 = Color3.fromRGB(210,210,210)
+    lbl.Font = Enum.Font.SourceSans
+    lbl.TextSize = 13
+    lbl.Text = labelTxt
+    lbl.TextXAlignment = Enum.TextXAlignment.Left
+    lbl.ZIndex = 62
+    local box = Instance.new("TextBox",row)
+    box.Size = UDim2.new(0,54,0,22)
+    box.Position = UDim2.new(1,-58,0.5,-11)
+    box.BackgroundColor3 = Color3.fromRGB(35,35,50)
+    box.TextColor3 = Color3.fromRGB(255,200,80)
+    box.Font = Enum.Font.SourceSansBold
+    box.TextSize = 13
+    box.Text = tostring(default)
+    box.ClearTextOnFocus = false
+    box.BorderSizePixel = 0
+    box.ZIndex = 62
+    Instance.new("UICorner",box).CornerRadius = UDim.new(0,5)
+    sfRowY = sfRowY + 34
+    return function() return tonumber(box.Text) or default end
+end
+
+local sfGetAutoSwing  = sfMakeRow("Auto Swing", true)
+local sfGetSwingSpeed = sfMakeNumRow("Swing Speed (s)", 0.08)
+local sfGetAutoMove   = sfMakeRow("Auto Move", true)
+local sfGetMoveOffset = sfMakeNumRow("Attack Dist", 2.5)
+local sfGetDodge      = sfMakeRow("Auto Dodge", true)
+local sfGetDodgeDist  = sfMakeNumRow("Dodge Dist", 6)
+local sfGetJump       = sfMakeRow("Auto Jump", true)
+local sfGetJumpRange  = sfMakeNumRow("Jump Range", 10)
+
+-- whitelist label
+local sfWlLbl = Instance.new("TextLabel",sfBotPanel)
+sfWlLbl.Size = UDim2.new(1,-16,0,16)
+sfWlLbl.Position = UDim2.new(0,8,0,sfRowY+2)
+sfWlLbl.BackgroundTransparency = 1
+sfWlLbl.TextColor3 = Color3.fromRGB(120,120,150)
+sfWlLbl.Font = Enum.Font.SourceSans
+sfWlLbl.TextSize = 11
+sfWlLbl.Text = "Whitelist: 0 player(s)"
+sfWlLbl.TextXAlignment = Enum.TextXAlignment.Left
+sfWlLbl.ZIndex = 61
+
+local sfBotWhitelist = {}
+local function sfUpdateWlLbl()
+    local n=0; for _ in pairs(sfBotWhitelist) do n=n+1 end
+    sfWlLbl.Text = "Whitelist: "..n.." player(s)"
+end
+
+-- drag panel
+local sfDrag,sfDragStart,sfDragPos
+sfBotPanel.InputBegan:Connect(function(inp)
+    if inp.UserInputType==Enum.UserInputType.MouseButton1 then
+        sfDrag=true; sfDragStart=inp.Position; sfDragPos=sfBotPanel.Position
+        inp.Changed:Connect(function()
+            if inp.UserInputState==Enum.UserInputState.End then sfDrag=false end
+        end)
+    end
+end)
+UIS.InputChanged:Connect(function(inp)
+    if sfDrag and inp.UserInputType==Enum.UserInputType.MouseMovement then
+        local d=inp.Position-sfDragStart
+        sfBotPanel.Position=UDim2.new(sfDragPos.X.Scale,sfDragPos.X.Offset+d.X,sfDragPos.Y.Scale,sfDragPos.Y.Offset+d.Y)
+    end
+end)
+
 local plPanel = Instance.new("Frame", ScreenGui)
 plPanel.Name = "PlayerLeaderboard"
 plPanel.Size = UDim2.new(0, 230, 0, 360)
@@ -506,7 +669,7 @@ plTitle.Size = UDim2.new(1, -44, 1, 0)
 plTitle.Position = UDim2.new(0, 12, 0, 0)
 plTitle.BackgroundTransparency = 1
 plTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-plTitle.Font = Enum.Font.SourceSansBold
+plTitle.Font = Enum.Font.GothamBold
 plTitle.TextSize = 14
 plTitle.TextXAlignment = Enum.TextXAlignment.Left
 plTitle.ZIndex = 52
@@ -517,7 +680,7 @@ plCloseBtn.Size = UDim2.new(0, 28, 0, 28)
 plCloseBtn.Position = UDim2.new(1, -34, 0.5, -14)
 plCloseBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
 plCloseBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
-plCloseBtn.Font = Enum.Font.SourceSansBold
+plCloseBtn.Font = Enum.Font.GothamBold
 plCloseBtn.TextSize = 12
 plCloseBtn.BorderSizePixel = 0
 plCloseBtn.ZIndex = 52
@@ -617,7 +780,7 @@ local function plRefresh()
         dispLbl.Position = UDim2.new(0, 46, 0, 6)
         dispLbl.BackgroundTransparency = 1
         dispLbl.TextColor3 = Color3.fromRGB(240, 240, 240)
-        dispLbl.Font = Enum.Font.SourceSansBold
+        dispLbl.Font = Enum.Font.GothamBold
         dispLbl.TextSize = 13
         dispLbl.TextXAlignment = Enum.TextXAlignment.Left
         dispLbl.TextTruncate = Enum.TextTruncate.AtEnd
@@ -629,7 +792,7 @@ local function plRefresh()
         userLbl.Position = UDim2.new(0, 46, 0, 25)
         userLbl.BackgroundTransparency = 1
         userLbl.TextColor3 = Color3.fromRGB(100, 100, 130)
-        userLbl.Font = Enum.Font.SourceSans
+        userLbl.Font = Enum.Font.Gotham
         userLbl.TextSize = 11
         userLbl.TextXAlignment = Enum.TextXAlignment.Left
         userLbl.TextTruncate = Enum.TextTruncate.AtEnd
@@ -642,7 +805,7 @@ local function plRefresh()
         addB.Position = UDim2.new(1, -58, 0.5, -13)
         addB.BackgroundColor3 = Color3.fromRGB(40, 160, 80)
         addB.TextColor3 = Color3.fromRGB(255, 255, 255)
-        addB.Font = Enum.Font.SourceSansBold
+        addB.Font = Enum.Font.GothamBold
         addB.TextSize = 16
         addB.BorderSizePixel = 0
         addB.ZIndex = 54
@@ -654,7 +817,7 @@ local function plRefresh()
         remB.Position = UDim2.new(1, -28, 0.5, -13)
         remB.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
         remB.TextColor3 = Color3.fromRGB(255, 255, 255)
-        remB.Font = Enum.Font.SourceSansBold
+        remB.Font = Enum.Font.GothamBold
         remB.TextSize = 16
         remB.BorderSizePixel = 0
         remB.ZIndex = 54
@@ -679,7 +842,7 @@ local function plRefresh()
         empty.Size = UDim2.new(1, 0, 0, 40)
         empty.BackgroundTransparency = 1
         empty.TextColor3 = Color3.fromRGB(80, 80, 100)
-        empty.Font = Enum.Font.SourceSansItalic
+        empty.Font = Enum.Font.GothamItalic
         empty.TextSize = 13
         empty.ZIndex = 52
     end
@@ -1017,248 +1180,7 @@ do
     pageY[buildPage]=posY+BOX_H+GAP
 end
 
--- =========================================================================
--- SF BOT SETTINGS PANEL
--- =========================================================================
-local sfBotPanel = Instance.new("Frame", ScreenGui)
-sfBotPanel.Name = "SFBotPanel"
-sfBotPanel.Size = UDim2.new(0, 244, 0, 400)
-sfBotPanel.Position = UDim2.new(0.5, -362, 0.05, 0)
-sfBotPanel.BackgroundColor3 = Color3.fromRGB(15, 15, 20)
-sfBotPanel.BackgroundTransparency = 0
-sfBotPanel.BorderSizePixel = 0
-sfBotPanel.Visible = false
-sfBotPanel.ZIndex = 50
-Instance.new("UICorner", sfBotPanel).CornerRadius = UDim.new(0, 14)
-
-local _sfAcc = Instance.new("Frame", sfBotPanel)
-_sfAcc.Size = UDim2.new(1,0,0,3); _sfAcc.BackgroundColor3 = Color3.fromRGB(255,80,80)
-_sfAcc.BorderSizePixel=0; _sfAcc.ZIndex=51
-Instance.new("UICorner",_sfAcc).CornerRadius=UDim.new(0,14)
-
-local _sfHdr = Instance.new("Frame", sfBotPanel)
-_sfHdr.Size=UDim2.new(1,0,0,38); _sfHdr.Position=UDim2.new(0,0,0,3)
-_sfHdr.BackgroundTransparency=1; _sfHdr.ZIndex=51
-
-local _sfTtl = Instance.new("TextLabel", _sfHdr)
-_sfTtl.Text="SF Bot Settings"; _sfTtl.Size=UDim2.new(1,-44,1,0)
-_sfTtl.Position=UDim2.new(0,12,0,0); _sfTtl.BackgroundTransparency=1
-_sfTtl.TextColor3=Color3.fromRGB(255,255,255); _sfTtl.Font=Enum.Font.SourceSansBold
-_sfTtl.TextSize=14; _sfTtl.TextXAlignment=Enum.TextXAlignment.Left; _sfTtl.ZIndex=52
-
-local _sfX = Instance.new("TextButton", _sfHdr)
-_sfX.Text="X"; _sfX.Size=UDim2.new(0,28,0,28); _sfX.Position=UDim2.new(1,-34,0.5,-14)
-_sfX.BackgroundColor3=Color3.fromRGB(60,60,70); _sfX.TextColor3=Color3.fromRGB(200,200,200)
-_sfX.Font=Enum.Font.SourceSansBold; _sfX.TextSize=12; _sfX.BorderSizePixel=0; _sfX.ZIndex=52
-Instance.new("UICorner",_sfX).CornerRadius=UDim.new(0,8)
-_sfX.MouseButton1Click:Connect(function() sfBotPanel.Visible=false end)
-
-local _sfDiv = Instance.new("Frame", sfBotPanel)
-_sfDiv.Size=UDim2.new(1,-20,0,1); _sfDiv.Position=UDim2.new(0,10,0,41)
-_sfDiv.BackgroundColor3=Color3.fromRGB(50,50,65); _sfDiv.BorderSizePixel=0; _sfDiv.ZIndex=51
-
-local _sfScr = Instance.new("ScrollingFrame", sfBotPanel)
-_sfScr.Size=UDim2.new(1,-8,1,-50); _sfScr.Position=UDim2.new(0,4,0,46)
-_sfScr.BackgroundTransparency=1; _sfScr.BorderSizePixel=0
-_sfScr.ScrollBarThickness=3; _sfScr.ScrollBarImageColor3=Color3.fromRGB(255,80,80)
-_sfScr.CanvasSize=UDim2.new(0,0,0,600); _sfScr.ZIndex=51
-
-local _sfY = 4
-local function _sfLbl(txt)
-    local l=Instance.new("TextLabel",_sfScr)
-    l.Text=txt; l.Size=UDim2.new(1,-16,0,16); l.Position=UDim2.new(0,8,0,_sfY)
-    l.BackgroundTransparency=1; l.TextColor3=Color3.fromRGB(140,140,160)
-    l.Font=Enum.Font.SourceSansBold; l.TextSize=11; l.TextXAlignment=Enum.TextXAlignment.Left; l.ZIndex=52
-    _sfY=_sfY+20
-end
-local function _sfToggle(lbl, def)
-    local row=Instance.new("Frame",_sfScr)
-    row.Size=UDim2.new(1,-16,0,32); row.Position=UDim2.new(0,8,0,_sfY)
-    row.BackgroundColor3=Color3.fromRGB(22,22,30); row.BorderSizePixel=0; row.ZIndex=52
-    Instance.new("UICorner",row).CornerRadius=UDim.new(0,8)
-    local l=Instance.new("TextLabel",row)
-    l.Text=lbl; l.Size=UDim2.new(1,-56,1,0); l.Position=UDim2.new(0,10,0,0)
-    l.BackgroundTransparency=1; l.TextColor3=Color3.fromRGB(220,220,220)
-    l.Font=Enum.Font.SourceSans; l.TextSize=13; l.TextXAlignment=Enum.TextXAlignment.Left; l.ZIndex=53
-    local btn=Instance.new("TextButton",row)
-    btn.Size=UDim2.new(0,44,0,22); btn.Position=UDim2.new(1,-50,0.5,-11)
-    btn.Font=Enum.Font.SourceSansBold; btn.TextSize=11; btn.BorderSizePixel=0; btn.ZIndex=53
-    Instance.new("UICorner",btn).CornerRadius=UDim.new(0,6)
-    local st=def
-    local function ref()
-        btn.Text=st and "ON" or "OFF"
-        btn.BackgroundColor3=st and Color3.fromRGB(0,150,0) or Color3.fromRGB(100,30,30)
-        btn.TextColor3=Color3.fromRGB(255,255,255)
-    end
-    ref(); btn.MouseButton1Click:Connect(function() st=not st; ref() end)
-    _sfY=_sfY+36
-    return function() return st end
-end
-local function _sfSlider(lbl, mn, mx, def)
-    local row=Instance.new("Frame",_sfScr)
-    row.Size=UDim2.new(1,-16,0,50); row.Position=UDim2.new(0,8,0,_sfY)
-    row.BackgroundColor3=Color3.fromRGB(22,22,30); row.BorderSizePixel=0; row.ZIndex=52
-    Instance.new("UICorner",row).CornerRadius=UDim.new(0,8)
-    local l=Instance.new("TextLabel",row)
-    l.Text=lbl; l.Size=UDim2.new(1,-60,0,20); l.Position=UDim2.new(0,10,0,4)
-    l.BackgroundTransparency=1; l.TextColor3=Color3.fromRGB(220,220,220)
-    l.Font=Enum.Font.SourceSans; l.TextSize=13; l.TextXAlignment=Enum.TextXAlignment.Left; l.ZIndex=53
-    local vl=Instance.new("TextLabel",row)
-    vl.Size=UDim2.new(0,48,0,20); vl.Position=UDim2.new(1,-54,0,4)
-    vl.BackgroundTransparency=1; vl.TextColor3=Color3.fromRGB(255,80,80)
-    vl.Font=Enum.Font.SourceSansBold; vl.TextSize=13; vl.ZIndex=53
-    local trk=Instance.new("Frame",row)
-    trk.Size=UDim2.new(1,-20,0,6); trk.Position=UDim2.new(0,10,0,34)
-    trk.BackgroundColor3=Color3.fromRGB(40,40,55); trk.BorderSizePixel=0; trk.ZIndex=53
-    Instance.new("UICorner",trk).CornerRadius=UDim.new(0,3)
-    local fl=Instance.new("Frame",trk)
-    fl.BackgroundColor3=Color3.fromRGB(255,80,80); fl.BorderSizePixel=0; fl.ZIndex=54
-    fl.Size=UDim2.new((def-mn)/(mx-mn),0,1,0)
-    Instance.new("UICorner",fl).CornerRadius=UDim.new(0,3)
-    local kn=Instance.new("TextButton",trk)
-    kn.Size=UDim2.new(0,14,0,14); kn.AnchorPoint=Vector2.new(0.5,0.5)
-    kn.Position=UDim2.new((def-mn)/(mx-mn),0,0.5,0)
-    kn.BackgroundColor3=Color3.fromRGB(255,255,255); kn.Text=""
-    kn.BorderSizePixel=0; kn.ZIndex=55
-    Instance.new("UICorner",kn).CornerRadius=UDim.new(0.5,0)
-    local val=def
-    vl.Text=tostring(math.floor(val*10)/10)
-    local drg=false
-    kn.MouseButton1Down:Connect(function() drg=true end)
-    UIS.InputEnded:Connect(function(i) if i.UserInputType==Enum.UserInputType.MouseButton1 then drg=false end end)
-    UIS.InputChanged:Connect(function(i)
-        if drg and i.UserInputType==Enum.UserInputType.MouseMovement then
-            local r=math.clamp((i.Position.X-trk.AbsolutePosition.X)/trk.AbsoluteSize.X,0,1)
-            val=mn+(mx-mn)*r; fl.Size=UDim2.new(r,0,1,0); kn.Position=UDim2.new(r,0,0.5,0)
-            vl.Text=tostring(math.floor(val*10)/10)
-        end
-    end)
-    _sfY=_sfY+56
-    return function() return val end
-end
-local function _sfSep()
-    local s=Instance.new("Frame",_sfScr)
-    s.Size=UDim2.new(1,-16,0,1); s.Position=UDim2.new(0,8,0,_sfY+4)
-    s.BackgroundColor3=Color3.fromRGB(40,40,55); s.BorderSizePixel=0; s.ZIndex=52
-    _sfY=_sfY+12
-end
-
-_sfLbl("COMBAT")
-local sfGetAutoSwing  = _sfToggle("Auto Swing", true)
-local sfGetSwingSpeed = _sfSlider("Swing Speed", 0.04, 0.5, 0.08)
-_sfSep()
-_sfLbl("MOVEMENT")
-local sfGetAutoMove   = _sfToggle("Auto Move to Target", true)
-local sfGetMoveOffset = _sfSlider("Attack Distance", 1.5, 5.0, 2.5)
-_sfSep()
-_sfLbl("DODGE")
-local sfGetDodge      = _sfToggle("Auto Dodge", true)
-local sfGetDodgeDist  = _sfSlider("Dodge Trigger Dist", 3.0, 10.0, 6.0)
-local sfGetDodgeCd    = _sfSlider("Dodge Cooldown", 0.2, 1.0, 0.45)
-_sfSep()
-_sfLbl("JUMP")
-local sfGetJump       = _sfToggle("Auto Jump", true)
-local sfGetJumpRange  = _sfSlider("Jump Range", 4.0, 20.0, 10.0)
-_sfSep()
-_sfLbl("WHITELIST  (tidak diserang)")
-local sfBotWhitelist = {}
-local _sfWlFrame = Instance.new("Frame",_sfScr)
-_sfWlFrame.Size=UDim2.new(1,-16,0,0); _sfWlFrame.Position=UDim2.new(0,8,0,_sfY+28)
-_sfWlFrame.BackgroundTransparency=1; _sfWlFrame.ZIndex=52
-local _sfWlLayout=Instance.new("UIListLayout",_sfWlFrame)
-_sfWlLayout.Padding=UDim.new(0,3); _sfWlLayout.SortOrder=Enum.SortOrder.LayoutOrder
-local _sfWlBox=Instance.new("TextBox",_sfScr)
-_sfWlBox.PlaceholderText="ketik nama..."; _sfWlBox.Text=""
-_sfWlBox.Size=UDim2.new(1,-54,0,26); _sfWlBox.Position=UDim2.new(0,8,0,_sfY)
-_sfWlBox.BackgroundColor3=Color3.fromRGB(30,30,40); _sfWlBox.TextColor3=Color3.fromRGB(255,255,255)
-_sfWlBox.PlaceholderColor3=Color3.fromRGB(100,100,120); _sfWlBox.Font=Enum.Font.SourceSans
-_sfWlBox.TextSize=12; _sfWlBox.ClearTextOnFocus=false; _sfWlBox.BorderSizePixel=0; _sfWlBox.ZIndex=52
-Instance.new("UICorner",_sfWlBox).CornerRadius=UDim.new(0,6)
-local _sfWlAdd=Instance.new("TextButton",_sfScr)
-_sfWlAdd.Text="+"; _sfWlAdd.Size=UDim2.new(0,34,0,26); _sfWlAdd.Position=UDim2.new(1,-46,0,_sfY)
-_sfWlAdd.BackgroundColor3=Color3.fromRGB(40,160,80); _sfWlAdd.TextColor3=Color3.fromRGB(255,255,255)
-_sfWlAdd.Font=Enum.Font.SourceSansBold; _sfWlAdd.TextSize=16; _sfWlAdd.BorderSizePixel=0; _sfWlAdd.ZIndex=52
-Instance.new("UICorner",_sfWlAdd).CornerRadius=UDim.new(0,6)
-local function _sfWlRefresh()
-    for _,c in ipairs(_sfWlFrame:GetChildren()) do if c:IsA("Frame") then c:Destroy() end end
-    local n=0
-    for name in pairs(sfBotWhitelist) do
-        n=n+1
-        local r=Instance.new("Frame",_sfWlFrame)
-        r.Size=UDim2.new(1,0,0,24); r.BackgroundColor3=Color3.fromRGB(28,18,48)
-        r.BorderSizePixel=0; r.LayoutOrder=n; r.ZIndex=53
-        Instance.new("UICorner",r).CornerRadius=UDim.new(0,6)
-        local nl=Instance.new("TextLabel",r)
-        nl.Text=name; nl.Size=UDim2.new(1,-30,1,0); nl.Position=UDim2.new(0,8,0,0)
-        nl.BackgroundTransparency=1; nl.TextColor3=Color3.fromRGB(200,200,200)
-        nl.Font=Enum.Font.SourceSans; nl.TextSize=12; nl.TextXAlignment=Enum.TextXAlignment.Left; nl.ZIndex=54
-        local xb=Instance.new("TextButton",r)
-        xb.Text="x"; xb.Size=UDim2.new(0,22,0,22); xb.Position=UDim2.new(1,-24,0.5,-11)
-        xb.BackgroundColor3=Color3.fromRGB(160,40,40); xb.TextColor3=Color3.fromRGB(255,255,255)
-        xb.Font=Enum.Font.SourceSansBold; xb.TextSize=11; xb.BorderSizePixel=0; xb.ZIndex=54
-        Instance.new("UICorner",xb).CornerRadius=UDim.new(0,5)
-        local cn=name
-        xb.MouseButton1Click:Connect(function() sfBotWhitelist[cn]=nil; _sfWlRefresh() end)
-    end
-    local h=n*27; _sfWlFrame.Size=UDim2.new(1,-16,0,h)
-    _sfScr.CanvasSize=UDim2.new(0,0,0,_sfY+32+h+20)
-end
-_sfWlAdd.MouseButton1Click:Connect(function()
-    local inp=_sfWlBox.Text:match("^%s*(.-)%s*$")
-    if inp~="" then
-        local f=findPlayer(inp); sfBotWhitelist[f and f.Name or inp]=true
-        _sfWlBox.Text=""; _sfWlRefresh()
-    end
-end)
-_sfWlBox.FocusLost:Connect(function(e)
-    if e then
-        local inp=_sfWlBox.Text:match("^%s*(.-)%s*$")
-        if inp~="" then
-            local f=findPlayer(inp); sfBotWhitelist[f and f.Name or inp]=true
-            _sfWlBox.Text=""; _sfWlRefresh()
-        end
-    end
-end)
--- player list btn
-local _sfWlPl=Instance.new("TextButton",_sfScr)
-_sfWlPl.Text="="; _sfWlPl.Size=UDim2.new(0,26,0,26); _sfWlPl.Position=UDim2.new(1,-34,0,_sfY)
-_sfWlPl.BackgroundColor3=Color3.fromRGB(60,60,80); _sfWlPl.TextColor3=Color3.fromRGB(255,255,255)
-_sfWlPl.Font=Enum.Font.SourceSansBold; _sfWlPl.TextSize=13; _sfWlPl.BorderSizePixel=0; _sfWlPl.ZIndex=52
-Instance.new("UICorner",_sfWlPl).CornerRadius=UDim.new(0,5)
-_sfWlPl.MouseButton1Click:Connect(function()
-    openListPanel("SF Bot Whitelist",sfBotWhitelist,_sfWlRefresh,_sfWlRefresh)
-end)
-_sfWlRefresh()
-
--- drag sfBotPanel
-local _sfDrg,_sfDS,_sfDP
-sfBotPanel.InputBegan:Connect(function(i)
-    if i.UserInputType==Enum.UserInputType.MouseButton1 then
-        _sfDrg=true; _sfDS=i.Position; _sfDP=sfBotPanel.Position
-        i.Changed:Connect(function() if i.UserInputState==Enum.UserInputState.End then _sfDrg=false end end)
-    end
-end)
-UIS.InputChanged:Connect(function(i)
-    if _sfDrg and i.UserInputType==Enum.UserInputType.MouseMovement then
-        local d=i.Position-_sfDS
-        sfBotPanel.Position=UDim2.new(_sfDP.X.Scale,_sfDP.X.Offset+d.X,_sfDP.Y.Scale,_sfDP.Y.Offset+d.Y)
-    end
-end)
-
 local SFBotButton, kb_sfbot = addBtn("SF Bot: OFF")
-do
-    -- Tombol settings âš™ di sebelah kanan button SF Bot
-    local _posY = pageY[buildPage] - BTN_H - GAP  -- posisi row SF Bot yang baru dibuat
-    local _sfSet = Instance.new("TextButton", pages[buildPage])
-    _sfSet.Text = "S"; _sfSet.Size = UDim2.new(0,24,0,BTN_H-4)
-    _sfSet.Position = UDim2.new(0, FRAME_W-34, 0, _posY+2)
-    _sfSet.BackgroundColor3 = Color3.fromRGB(60,60,90)
-    _sfSet.TextColor3 = Color3.fromRGB(200,200,255)
-    _sfSet.Font = Enum.Font.SourceSansBold; _sfSet.TextSize = 13
-    _sfSet.BorderSizePixel = 0; _sfSet.ZIndex = 5
-    Instance.new("UICorner", _sfSet).CornerRadius = UDim.new(0,6)
-    _sfSet.MouseButton1Click:Connect(function() sfBotPanel.Visible = not sfBotPanel.Visible end)
-end
 
 -- Scanner Page
 
@@ -1631,94 +1553,93 @@ local function toggleTPUna()
     end
 end
 
--- SF Bot state + logic
 local sfBotEnabled = false
 
-local function sfGetNearestEnemy()
+local function sfNearestEnemy()
     local myChar=player.Character
     local myRoot=myChar and myChar:FindFirstChild("HumanoidRootPart")
     if not myRoot then return nil end
-    local nearest,nearestDist=nil,math.huge
+    local best,bestDist=nil,math.huge
     for _,p in ipairs(Players:GetPlayers()) do
         if p~=player and not sfBotWhitelist[p.Name] then
-            local char=p.Character
-            local root=char and char:FindFirstChild("HumanoidRootPart")
-            local hum=char and char:FindFirstChildOfClass("Humanoid")
-            if root and hum and hum.Health>0 then
-                local d=(myRoot.Position-root.Position).Magnitude
-                if d<nearestDist then nearestDist=d; nearest=p end
+            local c=p.Character
+            local r=c and c:FindFirstChild("HumanoidRootPart")
+            local h=c and c:FindFirstChildOfClass("Humanoid")
+            if r and h and h.Health>0 then
+                local d=(myRoot.Position-r.Position).Magnitude
+                if d<bestDist then bestDist=d; best=p end
             end
         end
     end
-    return nearest
+    return best
 end
 
 local function toggleSFBot()
-    sfBotEnabled=not sfBotEnabled
-    SFBotButton.Text=sfBotEnabled and "SF Bot: ON" or "SF Bot: OFF"
-    SFBotButton.BackgroundColor3=sfBotEnabled and Color3.fromRGB(0,150,0) or Color3.fromRGB(50,50,50)
-    if sfBotEnabled then
-        task.spawn(function()
-            local swingT=0; local dodgeT=0; local jumpT=0; local dodgeCd=0
-            local lastTPos=nil; local dodgeDir=1
-            while sfBotEnabled do
-                task.wait(0.03)
-                swingT=swingT+0.03; dodgeT=dodgeT+0.03; jumpT=jumpT+0.03
-                if dodgeCd>0 then dodgeCd=dodgeCd-0.03 end
-                local doSwing=sfGetAutoSwing(); local swingSpd=sfGetSwingSpeed()
-                local doMove=sfGetAutoMove(); local moveOff=sfGetMoveOffset()
-                local doDodge=sfGetDodge(); local dodgeDst=sfGetDodgeDist(); local dodgeCdV=sfGetDodgeCd()
-                local doJump=sfGetJump(); local jumpRng=sfGetJumpRange()
-                local myChar=player.Character
-                local myRoot=myChar and myChar:FindFirstChild("HumanoidRootPart")
-                local myHum=myChar and myChar:FindFirstChildOfClass("Humanoid")
-                if not(myRoot and myHum and myHum.Health>0) then continue end
-                local target=sfGetNearestEnemy()
-                if not target or not target.Character then continue end
-                local tChar=target.Character
-                local tRoot=tChar:FindFirstChild("HumanoidRootPart")
-                local tHum=tChar:FindFirstChildOfClass("Humanoid")
-                if not(tRoot and tHum and tHum.Health>0) then continue end
-                local dist=(myRoot.Position-tRoot.Position).Magnitude
-                -- AUTO MOVE
-                if doMove then
-                    pcall(function()
-                        local cf=tRoot.CFrame*CFrame.new(0,0,moveOff)
-                        myRoot.CFrame=CFrame.new(cf.Position,tRoot.Position)
-                    end)
+    sfBotEnabled = not sfBotEnabled
+    SFBotButton.Text = sfBotEnabled and "SF Bot: ON" or "SF Bot: OFF"
+    SFBotButton.BackgroundColor3 = sfBotEnabled and Color3.fromRGB(0,150,0) or Color3.fromRGB(50,50,50)
+    if not sfBotEnabled then return end
+    task.spawn(function()
+        local swingT=0; local dodgeT=0; local jumpT=0; local dodgeCd=0
+        local lastTP=nil; local dodgeDir=1; local jumpInterval=1
+        while sfBotEnabled do
+            task.wait(0.03)
+            swingT=swingT+0.03; dodgeT=dodgeT+0.03; jumpT=jumpT+0.03
+            if dodgeCd>0 then dodgeCd=dodgeCd-0.03 end
+            local myChar=player.Character
+            local myRoot=myChar and myChar:FindFirstChild("HumanoidRootPart")
+            local myHum=myChar and myChar:FindFirstChildOfClass("Humanoid")
+            if not(myRoot and myHum and myHum.Health>0) then continue end
+            local target=sfNearestEnemy()
+            if not target or not target.Character then continue end
+            local tChar=target.Character
+            local tRoot=tChar:FindFirstChild("HumanoidRootPart")
+            local tHum=tChar:FindFirstChildOfClass("Humanoid")
+            if not(tRoot and tHum and tHum.Health>0) then continue end
+            local dist=(myRoot.Position-tRoot.Position).Magnitude
+            -- AUTO MOVE
+            if sfGetAutoMove() then
+                local off=sfGetMoveOffset()
+                pcall(function()
+                    local cf=tRoot.CFrame*CFrame.new(0,0,off)
+                    myRoot.CFrame=CFrame.new(cf.Position,tRoot.Position)
+                end)
+            end
+            -- AUTO SWING
+            local spd=sfGetSwingSpeed()
+            if sfGetAutoSwing() and swingT>=spd then
+                swingT=0
+                local tool=myChar:FindFirstChildWhichIsA("Tool")
+                if tool then pcall(function() tool:Activate() end) end
+            end
+            -- DODGE
+            if sfGetDodge() and dodgeT>=0.15 and dodgeCd<=0 then
+                dodgeT=0
+                local ddist=sfGetDodgeDist()
+                local tTool=tChar:FindFirstChildWhichIsA("Tool")
+                local danger=dist<ddist and tTool~=nil
+                if lastTP then
+                    if(tRoot.Position-lastTP).Magnitude/0.15>12 then danger=true end
                 end
-                -- AUTO SWING
-                if doSwing and swingT>=swingSpd then
-                    swingT=0
-                    local tool=myChar:FindFirstChildWhichIsA("Tool")
-                    if tool then pcall(function() tool:Activate() end) end
+                lastTP=tRoot.Position
+                if danger then
+                    dodgeCd=0.4; dodgeDir=dodgeDir*-1
+                    local side=Vector3.new(dodgeDir*4,0,0)
+                    local dcf=myRoot.CFrame+myRoot.CFrame:VectorToWorldSpace(side)
+                    pcall(function() myRoot.CFrame=CFrame.new(dcf,tRoot.Position) end)
                 end
-                -- DODGE
-                if doDodge and dodgeT>=0.15 and dodgeCd<=0 then
-                    dodgeT=0
-                    local tTool=tChar:FindFirstChildWhichIsA("Tool")
-                    local danger=dist<dodgeDst and tTool~=nil
-                    if lastTPos then
-                        if(tRoot.Position-lastTPos).Magnitude/0.15>12 then danger=true end
-                    end
-                    lastTPos=tRoot.Position
-                    if danger then
-                        dodgeCd=dodgeCdV; dodgeDir=dodgeDir*-1
-                        local side=Vector3.new(dodgeDir*4,0,0)
-                        local dcf=myRoot.CFrame+myRoot.CFrame:VectorToWorldSpace(side)
-                        pcall(function() myRoot.CFrame=CFrame.new(dcf,tRoot.Position) end)
-                    end
-                elseif dodgeT>=0.15 then
-                    dodgeT=0; lastTPos=tRoot.Position
-                end
-                -- AUTO JUMP
-                if doJump and jumpT>=(0.8+math.random()*1.2) then
-                    jumpT=0
-                    if dist<jumpRng then pcall(function() myHum.Jump=true end) end
+            elseif dodgeT>=0.15 then
+                dodgeT=0; lastTP=tRoot.Position
+            end
+            -- JUMP
+            if sfGetJump() and jumpT>=jumpInterval then
+                jumpInterval=0.8+math.random()*1.2; jumpT=0
+                if dist<sfGetJumpRange() then
+                    pcall(function() myHum.Jump=true end)
                 end
             end
-        end)
-    end
+        end
+    end)
 end
 
 local function doRejoin()
@@ -1824,6 +1745,34 @@ TPWalkButton.MouseButton1Click:Connect(toggleTPWalk)
 RejoinButton.MouseButton1Click:Connect(doRejoin)
 TPUnaButton.MouseButton1Click:Connect(toggleTPUna)
 SFBotButton.MouseButton1Click:Connect(toggleSFBot)
+-- Settings button untuk SF Bot (di sebelah tombol SF Bot)
+do
+    local _py = pageY[buildPage] - BTN_H - GAP
+    local _sb = Instance.new("TextButton", pages[buildPage])
+    _sb.Text="SET"; _sb.Size=UDim2.new(0,32,0,BTN_H-4)
+    _sb.Position=UDim2.new(0,FRAME_W-42,0,_py+2)
+    _sb.BackgroundColor3=Color3.fromRGB(50,50,80)
+    _sb.TextColor3=Color3.fromRGB(180,180,255)
+    _sb.Font=Enum.Font.SourceSansBold; _sb.TextSize=11
+    _sb.BorderSizePixel=0; _sb.ZIndex=5
+    Instance.new("UICorner",_sb).CornerRadius=UDim.new(0,6)
+    _sb.MouseButton1Click:Connect(function() sfBotPanel.Visible=not sfBotPanel.Visible end)
+end
+-- whitelist button buat SF Bot (pake plPanel)
+do
+    local _py2 = pageY[buildPage] - BTN_H - GAP
+    local _wb = Instance.new("TextButton", pages[buildPage])
+    _wb.Text="WL"; _wb.Size=UDim2.new(0,26,0,BTN_H-4)
+    _wb.Position=UDim2.new(0,FRAME_W-76,0,_py2+2)
+    _wb.BackgroundColor3=Color3.fromRGB(80,50,50)
+    _wb.TextColor3=Color3.fromRGB(255,180,180)
+    _wb.Font=Enum.Font.SourceSansBold; _wb.TextSize=11
+    _wb.BorderSizePixel=0; _wb.ZIndex=5
+    Instance.new("UICorner",_wb).CornerRadius=UDim.new(0,6)
+    _wb.MouseButton1Click:Connect(function()
+        openListPanel("SF Bot Whitelist", sfBotWhitelist, sfUpdateWlLbl, sfUpdateWlLbl)
+    end)
+end
 
 keyPairList={
     {kb_killall,toggleKillAll},{kb_adrop,toggleAutoDrop},
