@@ -506,7 +506,7 @@ plTitle.Size = UDim2.new(1, -44, 1, 0)
 plTitle.Position = UDim2.new(0, 12, 0, 0)
 plTitle.BackgroundTransparency = 1
 plTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-plTitle.Font = Enum.Font.GothamBold
+plTitle.Font = Enum.Font.SourceSansBold
 plTitle.TextSize = 14
 plTitle.TextXAlignment = Enum.TextXAlignment.Left
 plTitle.ZIndex = 52
@@ -517,7 +517,7 @@ plCloseBtn.Size = UDim2.new(0, 28, 0, 28)
 plCloseBtn.Position = UDim2.new(1, -34, 0.5, -14)
 plCloseBtn.BackgroundColor3 = Color3.fromRGB(60, 60, 70)
 plCloseBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
-plCloseBtn.Font = Enum.Font.GothamBold
+plCloseBtn.Font = Enum.Font.SourceSansBold
 plCloseBtn.TextSize = 12
 plCloseBtn.BorderSizePixel = 0
 plCloseBtn.ZIndex = 52
@@ -617,7 +617,7 @@ local function plRefresh()
         dispLbl.Position = UDim2.new(0, 46, 0, 6)
         dispLbl.BackgroundTransparency = 1
         dispLbl.TextColor3 = Color3.fromRGB(240, 240, 240)
-        dispLbl.Font = Enum.Font.GothamBold
+        dispLbl.Font = Enum.Font.SourceSansBold
         dispLbl.TextSize = 13
         dispLbl.TextXAlignment = Enum.TextXAlignment.Left
         dispLbl.TextTruncate = Enum.TextTruncate.AtEnd
@@ -629,7 +629,7 @@ local function plRefresh()
         userLbl.Position = UDim2.new(0, 46, 0, 25)
         userLbl.BackgroundTransparency = 1
         userLbl.TextColor3 = Color3.fromRGB(100, 100, 130)
-        userLbl.Font = Enum.Font.Gotham
+        userLbl.Font = Enum.Font.SourceSans
         userLbl.TextSize = 11
         userLbl.TextXAlignment = Enum.TextXAlignment.Left
         userLbl.TextTruncate = Enum.TextTruncate.AtEnd
@@ -642,7 +642,7 @@ local function plRefresh()
         addB.Position = UDim2.new(1, -58, 0.5, -13)
         addB.BackgroundColor3 = Color3.fromRGB(40, 160, 80)
         addB.TextColor3 = Color3.fromRGB(255, 255, 255)
-        addB.Font = Enum.Font.GothamBold
+        addB.Font = Enum.Font.SourceSansBold
         addB.TextSize = 16
         addB.BorderSizePixel = 0
         addB.ZIndex = 54
@@ -654,7 +654,7 @@ local function plRefresh()
         remB.Position = UDim2.new(1, -28, 0.5, -13)
         remB.BackgroundColor3 = Color3.fromRGB(180, 50, 50)
         remB.TextColor3 = Color3.fromRGB(255, 255, 255)
-        remB.Font = Enum.Font.GothamBold
+        remB.Font = Enum.Font.SourceSansBold
         remB.TextSize = 16
         remB.BorderSizePixel = 0
         remB.ZIndex = 54
@@ -679,7 +679,7 @@ local function plRefresh()
         empty.Size = UDim2.new(1, 0, 0, 40)
         empty.BackgroundTransparency = 1
         empty.TextColor3 = Color3.fromRGB(80, 80, 100)
-        empty.Font = Enum.Font.GothamItalic
+        empty.Font = Enum.Font.SourceSansItalic
         empty.TextSize = 13
         empty.ZIndex = 52
     end
@@ -1043,13 +1043,13 @@ _sfHdr.BackgroundTransparency=1; _sfHdr.ZIndex=51
 local _sfTtl = Instance.new("TextLabel", _sfHdr)
 _sfTtl.Text="SF Bot Settings"; _sfTtl.Size=UDim2.new(1,-44,1,0)
 _sfTtl.Position=UDim2.new(0,12,0,0); _sfTtl.BackgroundTransparency=1
-_sfTtl.TextColor3=Color3.fromRGB(255,255,255); _sfTtl.Font=Enum.Font.GothamBold
+_sfTtl.TextColor3=Color3.fromRGB(255,255,255); _sfTtl.Font=Enum.Font.SourceSansBold
 _sfTtl.TextSize=14; _sfTtl.TextXAlignment=Enum.TextXAlignment.Left; _sfTtl.ZIndex=52
 
 local _sfX = Instance.new("TextButton", _sfHdr)
 _sfX.Text="X"; _sfX.Size=UDim2.new(0,28,0,28); _sfX.Position=UDim2.new(1,-34,0.5,-14)
 _sfX.BackgroundColor3=Color3.fromRGB(60,60,70); _sfX.TextColor3=Color3.fromRGB(200,200,200)
-_sfX.Font=Enum.Font.GothamBold; _sfX.TextSize=12; _sfX.BorderSizePixel=0; _sfX.ZIndex=52
+_sfX.Font=Enum.Font.SourceSansBold; _sfX.TextSize=12; _sfX.BorderSizePixel=0; _sfX.ZIndex=52
 Instance.new("UICorner",_sfX).CornerRadius=UDim.new(0,8)
 _sfX.MouseButton1Click:Connect(function() sfBotPanel.Visible=false end)
 
@@ -1068,7 +1068,7 @@ local function _sfLbl(txt)
     local l=Instance.new("TextLabel",_sfScr)
     l.Text=txt; l.Size=UDim2.new(1,-16,0,16); l.Position=UDim2.new(0,8,0,_sfY)
     l.BackgroundTransparency=1; l.TextColor3=Color3.fromRGB(140,140,160)
-    l.Font=Enum.Font.GothamBold; l.TextSize=11; l.TextXAlignment=Enum.TextXAlignment.Left; l.ZIndex=52
+    l.Font=Enum.Font.SourceSansBold; l.TextSize=11; l.TextXAlignment=Enum.TextXAlignment.Left; l.ZIndex=52
     _sfY=_sfY+20
 end
 local function _sfToggle(lbl, def)
@@ -1079,10 +1079,10 @@ local function _sfToggle(lbl, def)
     local l=Instance.new("TextLabel",row)
     l.Text=lbl; l.Size=UDim2.new(1,-56,1,0); l.Position=UDim2.new(0,10,0,0)
     l.BackgroundTransparency=1; l.TextColor3=Color3.fromRGB(220,220,220)
-    l.Font=Enum.Font.Gotham; l.TextSize=13; l.TextXAlignment=Enum.TextXAlignment.Left; l.ZIndex=53
+    l.Font=Enum.Font.SourceSans; l.TextSize=13; l.TextXAlignment=Enum.TextXAlignment.Left; l.ZIndex=53
     local btn=Instance.new("TextButton",row)
     btn.Size=UDim2.new(0,44,0,22); btn.Position=UDim2.new(1,-50,0.5,-11)
-    btn.Font=Enum.Font.GothamBold; btn.TextSize=11; btn.BorderSizePixel=0; btn.ZIndex=53
+    btn.Font=Enum.Font.SourceSansBold; btn.TextSize=11; btn.BorderSizePixel=0; btn.ZIndex=53
     Instance.new("UICorner",btn).CornerRadius=UDim.new(0,6)
     local st=def
     local function ref()
@@ -1102,11 +1102,11 @@ local function _sfSlider(lbl, mn, mx, def)
     local l=Instance.new("TextLabel",row)
     l.Text=lbl; l.Size=UDim2.new(1,-60,0,20); l.Position=UDim2.new(0,10,0,4)
     l.BackgroundTransparency=1; l.TextColor3=Color3.fromRGB(220,220,220)
-    l.Font=Enum.Font.Gotham; l.TextSize=13; l.TextXAlignment=Enum.TextXAlignment.Left; l.ZIndex=53
+    l.Font=Enum.Font.SourceSans; l.TextSize=13; l.TextXAlignment=Enum.TextXAlignment.Left; l.ZIndex=53
     local vl=Instance.new("TextLabel",row)
     vl.Size=UDim2.new(0,48,0,20); vl.Position=UDim2.new(1,-54,0,4)
     vl.BackgroundTransparency=1; vl.TextColor3=Color3.fromRGB(255,80,80)
-    vl.Font=Enum.Font.GothamBold; vl.TextSize=13; vl.ZIndex=53
+    vl.Font=Enum.Font.SourceSansBold; vl.TextSize=13; vl.ZIndex=53
     local trk=Instance.new("Frame",row)
     trk.Size=UDim2.new(1,-20,0,6); trk.Position=UDim2.new(0,10,0,34)
     trk.BackgroundColor3=Color3.fromRGB(40,40,55); trk.BorderSizePixel=0; trk.ZIndex=53
@@ -1171,13 +1171,13 @@ local _sfWlBox=Instance.new("TextBox",_sfScr)
 _sfWlBox.PlaceholderText="ketik nama..."; _sfWlBox.Text=""
 _sfWlBox.Size=UDim2.new(1,-54,0,26); _sfWlBox.Position=UDim2.new(0,8,0,_sfY)
 _sfWlBox.BackgroundColor3=Color3.fromRGB(30,30,40); _sfWlBox.TextColor3=Color3.fromRGB(255,255,255)
-_sfWlBox.PlaceholderColor3=Color3.fromRGB(100,100,120); _sfWlBox.Font=Enum.Font.Gotham
+_sfWlBox.PlaceholderColor3=Color3.fromRGB(100,100,120); _sfWlBox.Font=Enum.Font.SourceSans
 _sfWlBox.TextSize=12; _sfWlBox.ClearTextOnFocus=false; _sfWlBox.BorderSizePixel=0; _sfWlBox.ZIndex=52
 Instance.new("UICorner",_sfWlBox).CornerRadius=UDim.new(0,6)
 local _sfWlAdd=Instance.new("TextButton",_sfScr)
 _sfWlAdd.Text="+"; _sfWlAdd.Size=UDim2.new(0,34,0,26); _sfWlAdd.Position=UDim2.new(1,-46,0,_sfY)
 _sfWlAdd.BackgroundColor3=Color3.fromRGB(40,160,80); _sfWlAdd.TextColor3=Color3.fromRGB(255,255,255)
-_sfWlAdd.Font=Enum.Font.GothamBold; _sfWlAdd.TextSize=16; _sfWlAdd.BorderSizePixel=0; _sfWlAdd.ZIndex=52
+_sfWlAdd.Font=Enum.Font.SourceSansBold; _sfWlAdd.TextSize=16; _sfWlAdd.BorderSizePixel=0; _sfWlAdd.ZIndex=52
 Instance.new("UICorner",_sfWlAdd).CornerRadius=UDim.new(0,6)
 local function _sfWlRefresh()
     for _,c in ipairs(_sfWlFrame:GetChildren()) do if c:IsA("Frame") then c:Destroy() end end
@@ -1191,11 +1191,11 @@ local function _sfWlRefresh()
         local nl=Instance.new("TextLabel",r)
         nl.Text=name; nl.Size=UDim2.new(1,-30,1,0); nl.Position=UDim2.new(0,8,0,0)
         nl.BackgroundTransparency=1; nl.TextColor3=Color3.fromRGB(200,200,200)
-        nl.Font=Enum.Font.Gotham; nl.TextSize=12; nl.TextXAlignment=Enum.TextXAlignment.Left; nl.ZIndex=54
+        nl.Font=Enum.Font.SourceSans; nl.TextSize=12; nl.TextXAlignment=Enum.TextXAlignment.Left; nl.ZIndex=54
         local xb=Instance.new("TextButton",r)
         xb.Text="x"; xb.Size=UDim2.new(0,22,0,22); xb.Position=UDim2.new(1,-24,0.5,-11)
         xb.BackgroundColor3=Color3.fromRGB(160,40,40); xb.TextColor3=Color3.fromRGB(255,255,255)
-        xb.Font=Enum.Font.GothamBold; xb.TextSize=11; xb.BorderSizePixel=0; xb.ZIndex=54
+        xb.Font=Enum.Font.SourceSansBold; xb.TextSize=11; xb.BorderSizePixel=0; xb.ZIndex=54
         Instance.new("UICorner",xb).CornerRadius=UDim.new(0,5)
         local cn=name
         xb.MouseButton1Click:Connect(function() sfBotWhitelist[cn]=nil; _sfWlRefresh() end)
@@ -1210,12 +1210,20 @@ _sfWlAdd.MouseButton1Click:Connect(function()
         _sfWlBox.Text=""; _sfWlRefresh()
     end
 end)
-_sfWlBox.FocusLost:Connect(function(e) if e then _sfWlAdd.MouseButton1Click:Fire() end end)
+_sfWlBox.FocusLost:Connect(function(e)
+    if e then
+        local inp=_sfWlBox.Text:match("^%s*(.-)%s*$")
+        if inp~="" then
+            local f=findPlayer(inp); sfBotWhitelist[f and f.Name or inp]=true
+            _sfWlBox.Text=""; _sfWlRefresh()
+        end
+    end
+end)
 -- player list btn
 local _sfWlPl=Instance.new("TextButton",_sfScr)
 _sfWlPl.Text="="; _sfWlPl.Size=UDim2.new(0,26,0,26); _sfWlPl.Position=UDim2.new(1,-34,0,_sfY)
 _sfWlPl.BackgroundColor3=Color3.fromRGB(60,60,80); _sfWlPl.TextColor3=Color3.fromRGB(255,255,255)
-_sfWlPl.Font=Enum.Font.GothamBold; _sfWlPl.TextSize=13; _sfWlPl.BorderSizePixel=0; _sfWlPl.ZIndex=52
+_sfWlPl.Font=Enum.Font.SourceSansBold; _sfWlPl.TextSize=13; _sfWlPl.BorderSizePixel=0; _sfWlPl.ZIndex=52
 Instance.new("UICorner",_sfWlPl).CornerRadius=UDim.new(0,5)
 _sfWlPl.MouseButton1Click:Connect(function()
     openListPanel("SF Bot Whitelist",sfBotWhitelist,_sfWlRefresh,_sfWlRefresh)
